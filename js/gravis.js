@@ -185,9 +185,11 @@ export const printIframe = (html) => {
     iframeDoc.write(html);
     iframeDoc.close();
 
-    // Imprimir o conteúdo do iframe
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
+    iframe.onload = () => {
+        // Imprimir o conteúdo do iframe após o carregamento
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+    };
 
 }
 

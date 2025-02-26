@@ -59,11 +59,23 @@ export const rawCSS = (params) => {
             size: ${pageWidth}mm ${pageHeight !== 0 ? pageHeight + 'mm' : ''};
             margin: 1mm;
         }
+        .page-break {
+            page-break-before: always;
+        }
         body {
             font-family: ${params.fontFamily ? params.fontFamily : 'Arial'};
             font-size: 12px;
             margin: 1mm;
             padding: 1mm;
+            page-break-inside: avoid;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-container .logo img {
+            max-height: 60px;
         }
         .text-right {
             text-align: right;
@@ -120,6 +132,9 @@ export const rawCSS = (params) => {
             width: 100%;
             border-collapse: collapse;
         }
+        .border {
+            border: 1px solid #000;
+        }
         .border-bottom {
             border-bottom: 1px solid #000;
         }
@@ -128,6 +143,30 @@ export const rawCSS = (params) => {
         }
         .mb-2 {
             margin-bottom: 2mm;
+        }
+        .p1 {
+            padding: 2px;
+        }
+        .p2 {
+            padding: 5px;
+        }
+        .p3 {
+            padding: 8px;
+        }
+        .p4 {
+            padding: 10px;
+        }
+        .p-1 {
+            padding: 2px;
+        }
+        .p-2 {
+            padding: 5px;
+        }
+        .p-3 {
+            padding: 8px;
+        }
+        .p-4 {
+            padding: 10px;
         }
     </style>
     `;
