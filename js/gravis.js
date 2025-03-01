@@ -164,6 +164,22 @@ export const innerHTML = async (elementID, html) => {
     document.getElementById(elementID).innerHTML = html
 }
 
+export const getInnerHTML = (elementID) => {
+    // check if element exists if not notify it
+    if (!document.getElementById(elementID)) {
+        notification({
+            title: 'Erro',
+            message: 'Elemento não encontrado: ' + elementID,
+            type: 'danger',
+            icon: 'exclamation-triangle',
+            position: 'bottom',
+            timeout: 2000
+        })
+        return
+    }
+    return document.getElementById(elementID).innerHTML
+}
+
 export const printIframe = (html) => {
     // verifica se o elemento de id printIframe existe se sim exclua
     if (document.getElementById('printIframe')) {
@@ -370,6 +386,96 @@ export const greatings = (template) => {
     }
 }
 
+export const plusMonthFromDate = (date, months) => {
+    let day, month, year;
+
+    if (date.includes('/')) {
+        // Formato brasileiro dd/mm/yyyy
+        let dateArray = date.split('/');
+        day = dateArray[0];
+        month = dateArray[1];
+        year = dateArray[2];
+    } else if (date.includes('-')) {
+        // Formato americano yyyy-mm-dd
+        let dateArray = date.split('-');
+        year = dateArray[0];
+        month = dateArray[1];
+        day = dateArray[2];
+    } else {
+        throw new Error('Formato de data inválido, utilize dd/mm/yyyy ou yyyy-mm-dd');
+    }
+
+    let newDate = new Date(year, month - 1, day);
+    newDate.setMonth(newDate.getMonth() + months);
+
+    let newDay = newDate.getDate();
+    let newMonth = newDate.getMonth() + 1;
+    let newYear = newDate.getFullYear();
+
+    if (newDay < 10) {
+        newDay = '0' + newDay;
+    }
+    if (newMonth < 10) {
+        newMonth = '0' + newMonth;
+    }
+
+    if (date.includes('/')) {
+        // Retornar no formato brasileiro dd/mm/yyyy
+        return `${newDay}/${newMonth}/${newYear}`;
+    } else {
+        // Retornar no formato americano yyyy-mm-dd
+        return `${newYear}-${newMonth}-${newDay}`;
+    }
+}
+
+export const diffDaysFromDates = (dateYoung, dateOld) => {
+    let dayYoung, monthYoung, yearYoung;
+    let dayOld, monthOld, yearOld;
+
+    if (dateYoung.includes('/')) {
+        // Formato brasileiro dd/mm/yyyy
+        let dateYoungArray = dateYoung.split('/');
+        dayYoung = dateYoungArray[0];
+        monthYoung = dateYoungArray[1];
+        yearYoung = dateYoungArray[2];
+    } else if (dateYoung.includes('-')) {
+        // Formato americano yyyy-mm-dd
+        let dateYoungArray = dateYoung.split('-');
+        yearYoung = dateYoungArray[0];
+        monthYoung = dateYoungArray[1];
+        dayYoung = dateYoungArray[2];
+    } else {
+        throw new Error('Formato de data inválido para dateYoung');
+    }
+
+    if (dateOld.includes('/')) {
+        // Formato brasileiro dd/mm/yyyy
+        let dateOldArray = dateOld.split('/');
+        dayOld = dateOldArray[0];
+        monthOld = dateOldArray[1];
+        yearOld = dateOldArray[2];
+    } else if (dateOld.includes('-')) {
+        // Formato americano yyyy-mm-dd
+        let dateOldArray = dateOld.split('-');
+        yearOld = dateOldArray[0];
+        monthOld = dateOldArray[1];
+        dayOld = dateOldArray[2];
+    } else {
+        throw new Error('Formato de data inválido para dateOld');
+    }
+
+    let dateYoungObj = new Date(yearYoung, monthYoung - 1, dayYoung);
+    let dateOldObj = new Date(yearOld, monthOld - 1, dayOld);
+    let diffTime = dateYoungObj - dateOldObj;
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+}
+
+export const calcJurosCompostos = (capital, taxa, periodoDias) => {
+    let juros = capital * Math.pow(1 + taxa / 100, periodoDias) - capital;
+    return juros;
+}
+
 export const toUpperCaseFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -396,10 +502,30 @@ export const execClick = (elementID) => {
     // check if element exists
     if (!document.getElementById(elementID)) {
         console.log('elemento não encontrado ou já foi encerrado anteriormente: ' + elementID)
-        return
+        return;
     }
-    document.getElementById(elementID).click()
+    document.getElementById(elementID).click();
 }
+
+
+export const ifEmptyReturnZero = (value) => {
+    switch (value) {
+        case undefined:
+        case null:
+        case 'undefined':
+        case 'null':
+        case 'NaN':
+        case '':
+        case ' ':
+        case '0':
+        case false:
+        case NaN:
+            return 0;
+        default:
+            return value;
+    }
+}
+
 
 function today_en() {
     let date = new Date()
