@@ -60,7 +60,10 @@ export const clickListenerClass = (className, callback) => {
 
     let elements = document.getElementsByClassName(className)
     for (let i = 0; i < elements.length; i++) {
-        elements[i].addEventListener('click', callback)
+        elements[i].addEventListener('click', (event) => {
+            event.stopPropagation();
+            callback(event);
+        });
     }
 }
 
