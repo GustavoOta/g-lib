@@ -133,6 +133,16 @@ export const hide = (elementID) => {
     document.getElementById(elementID).style.display = 'none'
 }
 
+export const toggleView = (elementID) => {
+    if (isElement(elementID) === false) return;
+    let element = document.getElementById(elementID);
+    if (element.style.display === 'none') {
+        element.style.display = '';
+    } else {
+        element.style.display = 'none';
+    }
+}
+
 export const disable = (elementID) => {
     if (isElement(elementID) === false) return;
     document.getElementById(elementID).disabled = true
