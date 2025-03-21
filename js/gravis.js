@@ -355,6 +355,62 @@ export const formatDateBRToUS = (date) => {
     return `${year}-${month}-${day}`
 }
 
+export const formatDateISO8601ToBR = (date, type) => {
+    if (!date) {
+        notification({
+            title: 'Erro',
+            message: 'Data inválida: ' + date,
+            type: 'danger',
+            icon: 'exclamation-triangle',
+            position: 'bottom',
+            timeout: 4000
+        });
+    }
+    if (!date.includes('T')) {
+        notification({
+            title: 'Erro',
+            message: 'Data inválida: ' + date,
+            type: 'danger',
+            icon: 'exclamation-triangle',
+            position: 'bottom',
+            timeout: 4000
+        });
+        return;
+    }
+
+    if (!type) type = 'full';
+
+    let dateArray = date.split('T')
+    let data = dateArray[0]
+    let hora = dateArray[1].split('-')[0]
+    let dataArray = data.split('-')
+    let dd = dataArray[2]
+    let mm = dataArray[1]
+    let yyyy = dataArray[0]
+    let shortTime = hora.substring(0, 5)
+
+    switch (type) {
+        case 'full':
+            return `${dd}/${mm}/${yyyy} ${hora}`;
+        case 'shortTime':
+            return shortTime;
+        case 'data':
+            return `${dd}/${mm}/${yyyy}`;
+        case 'date':
+            return `${yyyy}-${mm}-${dd}`;
+        case 'time':
+            return hora;
+        case 'dd':
+            return dd;
+        case 'mm':
+            return mm;
+        case 'yyyy':
+            return yyyy;
+        default:
+            return `${dd}/${mm}/${yyyy} ${hora}`;
+    }
+}
+
 export const greatings = (template) => {
     let date = new Date()
     let hour = date.getHours()
